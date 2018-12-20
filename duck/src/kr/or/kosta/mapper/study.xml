@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="study">
+
+	<insert id="createStudy" parameterType="svo">
+		insert into study values(
+		study_seq.nextVal,#{ms_id},#{s_title},#{s_category},
+		#{s_loc1},#{s_loc2},#{s_date1},#{s_date2},
+		#{s_count},#{s_pnum},#{s_comment},#{s_img},
+		#{s_price}
+		)
+	</insert>
+
+	<select id="selectList" resultType="svo">
+		select * from study order by s_num desc
+	</select>
+	
+	<select id="selectOne" parameterType="int" resultType="svo">
+	select s_num, ms_id, s_title, s_category, s_loc1, s_loc2, to_char(s_date1,'yyyy-mm-dd') s_date1, 
+		to_char(s_date2,'yyyy-mm-dd') s_date2, s_count, s_pnum, s_comment, s_img, s_price 
+		from study where s_num=#{s_num}
+	</select>
+	
+	<update id="updateStudy" parameterType="svo">
+		update study set s_title=#{s_title},s_category=#{s_category},s_loc1=#{s_loc1}, s_loc2=#{s_loc2},
+		 s_date1 =#{s_date1},s_date2=#{s_date2},
+		  s_count=#{s_count}, s_pnum=#{s_pnum}, s_comment=#{s_comment}, s_img=#{s_img}, s_price=#{s_price} 
+		 where s_num=#{s_num}
+	</update>
+	
+	<delete id="deleteStudy" parameterType="int">
+		delete from study where s_num=#{s_num}
+	</delete>
+	
+	<insert id="insertStudyList" parameterType="slvo">
+		insert into study_list values(study_list_seq.nextVal,#{s_num},#{sl_id},#{ms_id},#{sl_buy})
+	</insert>
+	
+	<update id="updateClassList" parameterType="slvo">
+		update study_list set sl_buy=#{sl_buy}
+        where sl_num=#{sl_num}
+	</update>
+	
+	<delete id="deleteStudy_list" parameterType="int">
+		delete from study_list where sl_num = #{sl_num}
+	</delete>
+	
+</mapper>
